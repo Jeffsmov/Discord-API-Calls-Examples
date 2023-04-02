@@ -1,6 +1,6 @@
 This are just a few examples I will be working to get information out of the discord api
 
-This was ChatGPT assited
+This was ChatGPT assisted
 
 Note: Create a file name Config.json based on the file Config.example.json, and fill the required information for your use case
 

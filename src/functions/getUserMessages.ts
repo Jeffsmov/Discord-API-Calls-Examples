@@ -15,7 +15,7 @@ export async function getUserMessages(props: Props) {
   try {
     fileName = props.fileName
       ? `./Results/${props.fileName}`
-      : `./Results/${props.user.userName}-${props.server.serverName}.txt`;
+      : `./Results/${props.user.userId}-${props.server.serverId}.txt`;
 
     // Get the user object
     const userResponse = await axios.get(
@@ -48,7 +48,7 @@ export async function getUserMessages(props: Props) {
           (element: string) => element === channel.name
         );
 
-        if (found === channel.name) continue;
+        if (!found) continue;
       }
 
       // Check if the channel is a text channel

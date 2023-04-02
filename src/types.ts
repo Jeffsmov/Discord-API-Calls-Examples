@@ -13,4 +13,5 @@ export type Config = {
   serverId: string;
   userId: string;
   fileName: string;
+  serverList?: string[];
 };

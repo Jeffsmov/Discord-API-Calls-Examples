@@ -32,7 +32,7 @@ export const run = async () => {
     let user: User = { userId: config.userId, userName };
     let server: Server = { serverId: config.serverId, serverName };
 
-    let channelsToSearchFor: string[] | undefined = ["subcribete-y-toca"];
+    let channelsToSearchFor: string[] | undefined = config.serverList;
 
     await getUserMessages({ user, server, channelsToSearchFor });
   } catch (error) {
