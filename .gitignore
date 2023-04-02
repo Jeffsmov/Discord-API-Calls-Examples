@@ -1,0 +1,16 @@
+# Node.js dependencies
+node_modules/
+
+# Compiled output
+dist/
+*.js
+
+# IDE files
+.vscode/
+.idea/
+
+# Ignore config.json
+config.json
+
+# Miscellaneous
+.DS_Store
