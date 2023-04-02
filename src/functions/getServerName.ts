@@ -1,7 +1,7 @@
 import axios from "axios";
 const fs = require("fs");
 
-const configFilePath = "config.json";
+const configFilePath = "./config.json";
 import { Config } from "../types";
 
 const configFile = fs.readFileSync(configFilePath, "utf-8");
@@ -18,7 +18,7 @@ export async function getServerName(
       method: "GET",
       url: `https://discord.com/api/guilds/${serverId}`,
       headers: {
-        Authorization: `Bot ${TOKEN}`,
+        Authorization: TOKEN,
         "Content-Type": "application/json",
       },
     });

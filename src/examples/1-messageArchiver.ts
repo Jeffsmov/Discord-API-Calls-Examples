@@ -6,7 +6,7 @@ import { getUserName } from "../functions/getUserName";
 
 import { User, Server, Config } from "../types";
 
-const configFilePath = "config.json";
+const configFilePath = "./config.json";
 
 const configFile = fs.readFileSync(configFilePath, "utf-8");
 const config: Config = JSON.parse(configFile);
@@ -32,7 +32,7 @@ export const run = async () => {
     let user: User = { userId: config.userId, userName };
     let server: Server = { serverId: config.serverId, serverName };
 
-    let channelsToSearchFor: string[] | undefined = undefined;
+    let channelsToSearchFor: string[] | undefined = ["subcribete-y-toca"];
 
     await getUserMessages({ user, server, channelsToSearchFor });
   } catch (error) {

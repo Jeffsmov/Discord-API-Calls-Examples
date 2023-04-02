@@ -1,7 +1,7 @@
 import axios from "axios";
 const fs = require("fs");
 
-const configFilePath = "config.json";
+const configFilePath = "./config.json";
 import { Config } from "../types";
 
 const configFile = fs.readFileSync(configFilePath, "utf-8");

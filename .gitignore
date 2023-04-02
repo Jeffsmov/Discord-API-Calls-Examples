@@ -9,6 +9,9 @@ dist/
 .vscode/
 .idea/
 
+#Ignore Result folders
+Results/
+
 # Ignore config.json
 config.json
 

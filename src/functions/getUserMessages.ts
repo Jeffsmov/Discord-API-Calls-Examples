@@ -3,7 +3,7 @@ const fs = require("fs");
 
 import { User, Server, Config } from "../types";
 
-const configFilePath = "config.json";
+const configFilePath = "./config.json";
 
 const configFile = fs.readFileSync(configFilePath, "utf-8");
 const config: Config = JSON.parse(configFile);
@@ -14,8 +14,8 @@ export async function getUserMessages(props: Props) {
   let fileName = "";
   try {
     fileName = props.fileName
-      ? `/results/${props.fileName}`
-      : `/results/${props.user.userName}-${props.server.serverName}.txt`;
+      ? `./Results/${props.fileName}`
+      : `./Results/${props.user.userName}-${props.server.serverName}.txt`;
 
     // Get the user object
     const userResponse = await axios.get(
@@ -30,27 +30,27 @@ export async function getUserMessages(props: Props) {
 
     // Get the server object
     const serverResponse = await axios.get(
-      `https://discord.com/api/guilds/${props.server.serverId}`,
+      `https://discord.com/api/guilds/${props.server.serverId}/channels`,
       {
         headers: {
           Authorization: TOKEN,
         },
       }
     );
-    const server = serverResponse.data;
-
+    const channels = serverResponse.data;
     // Open the file for writing
     const file = fs.createWriteStream(fileName);
 
     // Iterate through all channels in the server
-    for (const channel of server.channels) {
-      if (props.channelsToSearchFor !== undefined) {
+    for (const channel of channels) {
+      if (props.channelsToSearchFor) {
         let found = props.channelsToSearchFor.find(
           (element: string) => element === channel.name
         );
 
         if (found === channel.name) continue;
       }
+
       // Check if the channel is a text channel
       if (channel.type === 0) {
         // Retrieve messages in the channel
@@ -98,5 +98,5 @@ export type Props = {
   user: User;
   server: Server;
   fileName?: string;
-  channelsToSearchFor?: string[];
+  channelsToSearchFor?: string[] | undefined;
 };
