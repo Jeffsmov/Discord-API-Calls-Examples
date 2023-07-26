@@ -8,10 +8,16 @@ export type Server = {
   serverName: string;
 };
 
+export type Mudae = {
+  serverId: string;
+  channelId: string;
+};
+
 export type Config = {
   token: string;
   serverId: string;
   userId: string;
   fileName: string;
   serverList?: string[];
+  mudae?: Mudae;
 };
