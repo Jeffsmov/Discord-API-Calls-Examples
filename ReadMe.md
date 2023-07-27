@@ -21,3 +21,6 @@ fileName?: string; -- (Optional) An alternative filename. Will still be in /Resu
 channelsToSearchFor?: string[]; -- (Optional) A list of channel names you want the Archiver to pull messages from. Everything else will be ignored
 
 ---
+
+Build TS with = npx tsc -b
+Run node = node index.js
