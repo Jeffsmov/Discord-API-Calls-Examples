@@ -16,10 +16,13 @@ export const run = async () => {
   while (true) {
     //await warningMessages();
 
-    const rnd = Math.floor(Math.random() * 9);
+    let rnd = Math.floor(Math.random() * 9);
     const what = rnd % 2 === 0 ? "w" : rnd < 5 ? "h" : "m";
 
-    const props: RollProps = { what };
+    rnd = Math.floor(Math.random() * 9);
+    const pool = rnd % 2 === 0 ? undefined : rnd < 5 ? "a" : "g";
+
+    const props: RollProps = { what, pool };
 
     await roll(props);
 
@@ -30,7 +33,7 @@ export const run = async () => {
       hourCount = 0;
     }
 
-    const nextRollsIn = calNextRolls();
+    const nextRollsIn = calcNextRolls();
 
     await new Promise((r) => setTimeout(r, nextRollsIn));
   }
@@ -83,26 +86,28 @@ const sendArrayOfMessages = async (messages: string[]) => {
   }
 };
 
-const calNextRolls = () => {
+const calcNextRolls = () => {
   const rnd = Math.floor(Math.random() * 40);
 
   const time = new Date();
-  let hour = time.getHours();
-  if (time.getMinutes() < 10) {
-    hour--;
+  let hour = 1;
+  if (time.getMinutes() <= 10) {
+    hour = 0;
   }
 
-  const fecha = new Date(
+  const auxFecha = new Date(
     time.getFullYear(),
     time.getMonth(),
     time.getDate(),
-    hour + 1,
+    time.getHours(),
     11 + rnd,
     0,
     0
   );
 
-  return fecha.getTime() - time.getTime();
+  const fecha = auxFecha.getTime() + 3600000 * hour;
+
+  return fecha - time.getTime();
 };
 
 type RollProps = {
