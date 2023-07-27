@@ -11,19 +11,22 @@ const config: Config = JSON.parse(configFile);
 
 export const run = async () => {
   let hourCount = 0;
-  dailyMessages();
+  await dailyMessages();
 
   while (true) {
-    warningMessages();
+    //await warningMessages();
 
-    const props: RollProps = { what: "w" }; // TODO: rng this later
+    const rnd = Math.floor(Math.random() * 9);
+    const what = rnd % 2 === 0 ? "w" : rnd < 5 ? "h" : "m";
+
+    const props: RollProps = { what };
 
     await roll(props);
 
     hourCount++;
 
     if (hourCount === 12) {
-      dailyMessages();
+      await dailyMessages();
       hourCount = 0;
     }
 
@@ -37,7 +40,7 @@ const roll = async ({ what, pool }: RollProps) => {
   try {
     if (config.mudae) {
       let message = `$${what}${pool ?? ""}`;
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 10; i++) {
         await sendMessage({
           channelId: config.mudae.channelId,
           message,
@@ -60,24 +63,24 @@ const warningMessages = async () => {
     "2",
     "1",
   ];
-  sendArrayOfMessages(messages);
+  await sendArrayOfMessages(messages);
 };
 
 const dailyMessages = async () => {
   const messages: string[] = ["$daily", "$dk"];
-  sendArrayOfMessages(messages);
+  await sendArrayOfMessages(messages);
 };
 
 const sendArrayOfMessages = async (messages: string[]) => {
-  messages.map(async (message) => {
-    if (config.mudae) {
+  if (config.mudae) {
+    for (let i = 0; i < messages.length; i++) {
       await sendMessage({
         channelId: config.mudae.channelId,
-        message,
+        message: messages[i],
       });
       await new Promise((r) => setTimeout(r, 1500));
     }
-  });
+  }
 };
 
 const calNextRolls = () => {
@@ -93,13 +96,13 @@ const calNextRolls = () => {
     time.getFullYear(),
     time.getMonth(),
     time.getDate(),
-    hour,
+    hour + 1,
     11 + rnd,
     0,
     0
   );
 
-  return time.getMilliseconds() - fecha.getMilliseconds();
+  return fecha.getTime() - time.getTime();
 };
 
 type RollProps = {
